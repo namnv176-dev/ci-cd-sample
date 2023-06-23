@@ -11,4 +11,10 @@ jobs:
           node-version: '14'
       - run: npm install -g bats
       - run: bats -v
+  check-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - run: whoami
+      - run: echo "hello world'
+
 
