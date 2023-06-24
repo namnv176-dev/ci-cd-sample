@@ -23,12 +23,12 @@ jobs:
     - name: login to dev server
       uses: appleboy/ssh-action@v0.1.10
       with:
- 	host: "studio-dev.daotao.ai"
+ 	host: 'studio-dev.daotao.ai'
 	username: lab01
 	password: {{ secrets.DEV_PASS }}
       script: |
 	 echo "hello world"
-      	 ls -a
+      	 ls -al
       	 whoami
 
 
