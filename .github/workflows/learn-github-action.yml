@@ -25,10 +25,11 @@ jobs:
       with:
  	host: studio-dev.daotao.ai
 	username: lab01
-	password: {{ secret.DEV_PASS }}
-      run: echo "hello world"
-      run: ls -a
-      run: whoami
+	password: {{ secrets.DEV_PASS }}
+      script: |
+	 echo "hello world"
+      	 ls -a
+      	 whoami
 
 
 
