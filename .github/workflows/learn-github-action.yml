@@ -18,15 +18,16 @@ jobs:
       - run: echo "hello world"
   login-dev-server:
     runs-on: ubuntu-latest
-    enviroment: development
+    enviroment:
+      name: development
     steps:
     - name: login to dev server
       uses: appleboy/ssh-action@v0.1.10
       with:
- 	host: ${{ env.host }}
+ 	host: ${{ env.DEV_HOST }}
 	username: lab01
 	password: ${{ secrets.DEV_PASS }}
-      script: |
+      run: |
 	 echo "hello world"
       	 ls -al
       	 whoami
