@@ -33,4 +33,4 @@ jobs:
           script: |
             whoami
             ls -al
-            sudo apt-get update
+            sudo -S ${{ secrets.DEV_PASS }}apt-get update
