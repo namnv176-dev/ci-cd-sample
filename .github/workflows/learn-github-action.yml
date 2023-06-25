@@ -24,16 +24,16 @@ jobs:
       - run: |
           echo ${{ env.DEV_HOST }}
           echo ${{ secrets.DEV_PASS}}
-      # - name: executing remote ssh commands using password
-      #   uses: appleboy/ssh-action@v0.1.10
-      #   with:
-      #     host: ${{ env.DEV_HOST }}
-      #     username: lab01
-      #     password: ${{ secrets.DEV_PASS }}
-      #     script: |
-      #       whoami
-      #       ls -al
-      #       echo ${{ env.TEST }}
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: "studio-dev.daotao.ai"
+          username: lab01
+          password: ${{ secrets.DEV_PASS }}
+          script: |
+            whoami
+            ls -al
+            echo ${{ env.TEST }}
 
 
 
