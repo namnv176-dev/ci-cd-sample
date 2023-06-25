@@ -24,7 +24,7 @@ jobs:
     - name: login to dev server
       uses: appleboy/ssh-action@v0.1.10
       with:
- 	host: ${{ env.DEV_HOST }}
+ 	# host: ${{ env.DEV_HOST }}
 	username: lab01
 	password: ${{ secrets.DEV_PASS }}
       run: |
