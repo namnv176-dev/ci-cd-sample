@@ -21,16 +21,16 @@ jobs:
     environment:
       name: development
     steps:
-      - name: login to dev server
+      - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ env.DEV_HOST }}
+          host: ${{ ENV.DEV_HOST }}
           username: lab01
           password: ${{ secrets.DEV_PASS }}
-        script: |
-          echo "hello world"
-          ls -al
-          whoami
+          script: |
+            whoami
+            ls -al
+            echo ${{ env.TEST }}
 
 
 
