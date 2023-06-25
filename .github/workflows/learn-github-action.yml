@@ -33,4 +33,4 @@ jobs:
           script: |
             whoami
             ls -al
-            echo ${{ vars.TEST }}
+            sudo apt-get update
