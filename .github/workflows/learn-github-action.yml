@@ -18,8 +18,8 @@ jobs:
       - run: echo "hello world"
   login-dev-server:
     runs-on: ubuntu-latest
-    enviroment:
-      name: 
+    environment:
+      name: development
     steps:
       - name: login to dev server
         uses: appleboy/ssh-action@v0.1.10
