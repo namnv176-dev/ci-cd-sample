@@ -27,10 +27,10 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ variables.DEV_HOST }}
+          host: ${{ vars.DEV_HOST }}
           username: lab01
           password: ${{ secrets.DEV_PASS }}
           script: |
             whoami
             ls -al
-            echo ${{ variables.TEST }}
+            echo ${{ vars.TEST }}
