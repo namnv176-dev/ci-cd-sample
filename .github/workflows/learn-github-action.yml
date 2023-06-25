@@ -27,7 +27,7 @@ jobs:
           host: ${{ env.DEV_HOST }}
           username: lab01
           password: ${{ secrets.DEV_PASS }}
-        run: |
+        script: |
           echo "hello world"
           ls -al
           whoami
