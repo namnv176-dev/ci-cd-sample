@@ -14,9 +14,9 @@ jobs:
           username: github-cicd
           password: ${{ secrets.DEV_PASS }}
           script: |
-            sudo su edxapp -s /bin/bash
-            whoami
-            cd ${{vars.WORKING_DIR }} && git pull origin develop
+            sudo su edxapp -s /bin/bash && \ 
+            cd ${{vars.WORKING_DIR }} && \
+            git pull origin develop
       - name: Deploy dev server
         uses: appleboy/ssh-action@v0.1.10
         with:
