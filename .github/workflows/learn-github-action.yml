@@ -24,8 +24,8 @@ jobs:
           script: |
             cd /edx/app/edxapp/edx-platform && \
             ls -al && \
-            source /edx/app/edxapp/edxapp_env
             sudo -u edxapp bash -c '
+              source /edx/app/edxapp/edxapp_env
               i18n_tool extract  && \
               i18n_tool generate && \
               python manage.py lms compilejsi18n && \
