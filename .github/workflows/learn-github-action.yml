@@ -25,10 +25,10 @@ jobs:
             cd /edx/app/edxapp/edx-platform && \
             ls -al && \
             source /edx/app/edxapp/edxapp_env && \
-            /edx/app/edxapp/venvs/edxapp/bin/i18n_tool extract  && \
-            /edx/app/edxapp/venvs/edxapp/bin/i18n_tool generate && \
-            /edx/app/edxapp/venvs/edxapp/bin/python manage.py lms compilejsi18n && \
-            /edx/app/edxapp/venvs/edxapp/bin/python manage.py cms compilejsi18n
+            i18n_tool extract  && \
+            i18n_tool generate && \
+            python manage.py lms compilejsi18n && \
+            python manage.py cms compilejsi18n
             if [ $? -eq 0 ]; then
               /edx/bin/edxapp-update-assets
               /edx/bin/supervisorctl restart lms
