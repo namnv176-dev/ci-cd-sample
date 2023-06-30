@@ -2,20 +2,6 @@ name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
-  check-bats-version:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
-  check-runner:
-    runs-on: ubuntu-latest
-    steps:
-      - run: whoami
-      - run: echo "hello world"
   login-dev-server:
     runs-on: ubuntu-latest
     environment:
@@ -33,4 +19,12 @@ jobs:
           script: |
             whoami
             ls -al
+            export ${{ vars.GIT_SSH_COMMAND }}
+            cd ${{vars.WORKING_DIR }} && git pull origin develop \
+            /edx/app/edxapp/venvs/edxapp/bin/i18n_tool extract  && \
+            /edx/app/edxapp/venvs/edxapp/bin/i18n_tool generate
+            cd /edx/app/edxapp/edx-platform && \
+            /edx/app/edxapp/venvs/edxapp/bin/python manage.py lms compilejsi18n && \
+            /edx/app/edxapp/venvs/edxapp/bin/python manage.py cms compilejsi18n
+            /edx/bin/edxapp-update-assets
             /edx/bin/supervisorctl restart lms
