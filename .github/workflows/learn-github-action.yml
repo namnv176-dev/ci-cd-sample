@@ -25,7 +25,7 @@ jobs:
             ls -al
             cd /edx/app/edxapp/edx-platform && \
             ls -al && \
-            source /edx/app/edxapp/venvs/edxapp && \
+            source /edx/app/edxapp/venvs/edxapp_env && \
             /edx/app/edxapp/venvs/edxapp/bin/i18n_tool extract  && \
             /edx/app/edxapp/venvs/edxapp/bin/i18n_tool generate && \
             /edx/app/edxapp/venvs/edxapp/bin/python manage.py lms compilejsi18n && \
