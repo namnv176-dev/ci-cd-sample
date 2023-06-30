@@ -7,34 +7,33 @@ jobs:
     environment:
       name: development
     steps:
-      - run: |
-          echo ${{ env.DEV_HOST }}
-          echo ${{ secrets.DEV_PASS}}
-      - name: executing remote ssh commands using password
+      - name: Pull code
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ vars.DEV_HOST }}
           username: github-cicd
           password: ${{ secrets.DEV_PASS }}
           script: |
-            whoami
-            ls -al
-            export GIT_SSH_COMMAND="ssh -i ${{ vars.GIT_SSH_COMMAND }}"
-            sudo git config --global --add safe.directory /edx/app/edxapp/edx-platform/conf/locale/vi/LC_MESSAGES
+            su edxapp -s /bin/bash
             cd ${{vars.WORKING_DIR }} && git pull origin develop
+      - name: Deploy dev server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ vars.DEV_HOST }}
+          username: github-cicd
+          password: ${{ secrets.DEV_PASS }}
+          script: |
+            ls -al
+            cd /edx/app/edxapp/edx-platform && \
+            ls -al && \
+            source /edx/app/edxapp/venvs/edxapp && \
+            /edx/app/edxapp/venvs/edxapp/bin/i18n_tool extract  && \
+            /edx/app/edxapp/venvs/edxapp/bin/i18n_tool generate && \
+            /edx/app/edxapp/venvs/edxapp/bin/python manage.py lms compilejsi18n && \
+            /edx/app/edxapp/venvs/edxapp/bin/python manage.py cms compilejsi18n
             if [ $? -eq 0 ]; then
-              cd /edx/app/edxapp/edx-platform
-              source /edx/app/edxapp/venvs/edxapp && \
-              /edx/app/edxapp/venvs/edxapp/bin/i18n_tool extract  && \
-              /edx/app/edxapp/venvs/edxapp/bin/i18n_tool generate && \
-              /edx/app/edxapp/venvs/edxapp/bin/python manage.py lms compilejsi18n && \
-              /edx/app/edxapp/venvs/edxapp/bin/python manage.py cms compilejsi18n
-              if [ $? -eq 0 ]; then
-                /edx/bin/edxapp-update-assets
-                /edx/bin/supervisorctl restart lms
-              else
-                echo "Compile i18n failed" && exit 1
-              fi
+              /edx/bin/edxapp-update-assets
+              /edx/bin/supervisorctl restart lms
             else
-              echo "Pull code failed" && exit 1
+              echo "Compile i18n failed" && exit 1
             fi
