@@ -19,7 +19,7 @@ jobs:
           script: |
             whoami
             ls -al
-            export ${{ vars.GIT_SSH_COMMAND }}
+            sudo export ${{ vars.GIT_SSH_COMMAND }}
             cd ${{vars.WORKING_DIR }} && git pull origin develop
             if [ $? -eq 0 ]; then
               cd /edx/app/edxapp/edx-platform
