@@ -19,7 +19,8 @@ jobs:
           script: |
             whoami
             ls -al
-            sudo export ${{ vars.GIT_SSH_COMMAND }}
+            export GIT_SSH_COMMAND="ssh -i ${{ vars.GIT_SSH_COMMAND }}"
+            sudo git config --global --add safe.directory /edx/app/edxapp/edx-platform/conf/locale/vi/LC_MESSAGES
             cd ${{vars.WORKING_DIR }} && git pull origin develop
             if [ $? -eq 0 ]; then
               cd /edx/app/edxapp/edx-platform
