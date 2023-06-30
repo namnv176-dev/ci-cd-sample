@@ -28,9 +28,9 @@ jobs:
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ vars.DEV_HOST }}
-          username: lab01
+          username: github-cicd
           password: ${{ secrets.DEV_PASS }}
           script: |
             whoami
             ls -al
-            sudo -S ${{ secrets.DEV_PASS }}apt-get update
+            /edx/bin/supervisorctl restart lms
