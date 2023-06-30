@@ -33,6 +33,7 @@ jobs:
                 /edx/bin/supervisorctl restart lms
               else
                 echo "Compile i18n failed" && exit 1
+              fi
             else
               echo "Pull code failed" && exit 1
             fi
