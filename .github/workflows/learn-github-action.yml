@@ -22,10 +22,9 @@ jobs:
           username: github-cicd
           password: ${{ secrets.DEV_PASS }}
           script: |
-            ls -al
             cd /edx/app/edxapp/edx-platform && \
             ls -al && \
-            source /edx/app/edxapp/venvs/edxapp_env && \
+            source /edx/app/edxapp/edxapp_env && \
             /edx/app/edxapp/venvs/edxapp/bin/i18n_tool extract  && \
             /edx/app/edxapp/venvs/edxapp/bin/i18n_tool generate && \
             /edx/app/edxapp/venvs/edxapp/bin/python manage.py lms compilejsi18n && \
