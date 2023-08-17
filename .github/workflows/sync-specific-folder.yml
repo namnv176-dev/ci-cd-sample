@@ -2,5 +2,14 @@ name: sync-specific-folder
 run-name: ${{ github.actor }} is running sync folder
 on:
   push:
-    - main
-  
+    branches:
+      - main
+    types: [labeled]
+jobs:
+  sync-branch:
+    if: ${{ github.event.label.name == 'sync-branch' }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      run: echo Hello, world!
