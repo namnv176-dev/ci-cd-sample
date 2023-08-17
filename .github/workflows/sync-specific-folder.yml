@@ -1,7 +1,7 @@
 name: sync-specific-folder
 run-name: ${{ github.actor }} is running sync folder
 on:
-  push:
+  pull_request_target:
     branches:
       - main
     types: [labeled]
