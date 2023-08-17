@@ -37,6 +37,7 @@ jobs:
       #       else
       #         echo "Compile i18n failed" && exit 1
       #       fi
-      - step:
-        - name: hello word
-        - run: echo "Hello world!"
+      steps:
+      - uses: actions/checkout@v2
+      - name: Run a one-line script
+        run: echo Hello, world!
