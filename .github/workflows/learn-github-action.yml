@@ -7,33 +7,38 @@ jobs:
     environment:
       name: development
     steps:
-      - name: Pull code
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ vars.DEV_HOST }}
-          username: github-cicd
-          password: ${{ secrets.DEV_PASS }}
-          script: |
-            sudo -u edxapp bash -c 'cd ${{vars.WORKING_DIR }} && git pull origin develop'
-      - name: Deploy dev server
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ vars.DEV_HOST }}
-          username: github-cicd
-          password: ${{ secrets.DEV_PASS }}
-          script: |
-            cd /edx/app/edxapp/edx-platform && \
-            ls -al && \
-            sudo -u edxapp bash -c '
-              source /edx/app/edxapp/edxapp_env
-              i18n_tool extract  && \
-              i18n_tool generate && \
-              python manage.py lms compilejsi18n && \
-              python manage.py cms compilejsi18n
-            '
-            if [ $? -eq 0 ]; then
-              /edx/bin/edxapp-update-assets
-              /edx/bin/supervisorctl restart lms
-            else
-              echo "Compile i18n failed" && exit 1
-            fi
+      # - name: Pull code
+      #   uses: appleboy/ssh-action@v0.1.10
+      #   with:
+      #     host: ${{ vars.DEV_HOST }}
+      #     username: github-cicd
+      #     password: ${{ secrets.DEV_PASS }}
+      #     script: |
+      #       sudo -u edxapp bash -c 'cd ${{vars.WORKING_DIR }} && git pull origin develop'
+      # - name: Deploy dev server
+      #   uses: appleboy/ssh-action@v0.1.10
+      #   with:
+      #     host: ${{ vars.DEV_HOST }}
+      #     username: github-cicd
+      #     password: ${{ secrets.DEV_PASS }}
+      #     script: |
+      #       cd /edx/app/edxapp/edx-platform && \
+      #       ls -al && \
+      #       sudo -u edxapp bash -c '
+      #         source /edx/app/edxapp/edxapp_env
+      #         i18n_tool extract  && \
+      #         i18n_tool generate && \
+      #         python manage.py lms compilejsi18n && \
+      #         python manage.py cms compilejsi18n
+      #       '
+      #       if [ $? -eq 0 ]; then
+      #         /edx/bin/edxapp-update-assets
+      #         /edx/bin/supervisorctl restart lms
+      #       else
+      #         echo "Compile i18n failed" && exit 1
+      #       fi
+      - step:
+        - name: hello word
+        - run: |
+          echo "Hello world!"
+        
