@@ -14,10 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.x
-          cache: npm
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.13.x
+        cache: npm
     - name: sync branch
       run: |
           git checkout sync-branch
