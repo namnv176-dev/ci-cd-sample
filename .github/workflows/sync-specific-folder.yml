@@ -20,7 +20,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: sync branch
       run: |
-          echo ${{github.event.pull_request.labels.*.name}}
+          elements = ${{github.event.pull_request.labels.*.name}}
+          for element in "${elements[@]}"
+          do
+              echo "$element"
+          done
+          # echo ${{github.event.pull_request.labels.*.name}}
           # git checkout sync-branch
           # git checkout -- templates # Reset the templates folder to the state of the 'theme' branch
           # git checkout main
