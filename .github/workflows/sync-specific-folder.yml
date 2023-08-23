@@ -1,23 +1,28 @@
 name: sync-specific-folder
 run-name: ${{ github.actor }} is running sync folder
 on:
-  pull_request_target:
+  push:
     branches:
       - main
-    types: [labeled]
     paths:
       - templates/**
+  # pull_request_target:
+  #   branches:
+  #     - main
+  #   types: [labeled]
+  #   paths:
+  #     - templates/**
 jobs:
   sync-branch:
-    if: ${{ github.event.label.name == 'sync-branch' }}
+    if: ${{ github.event.pull_request.merged }} == true && ${{ github.event.pull_request.labels.*.name }} =~ 'sync-branch'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.13.x
-          cache: npm
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.13.x
+        cache: npm
     - name: sync branch
       run: |
           git checkout sync-branch
