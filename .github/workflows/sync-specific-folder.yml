@@ -1,30 +1,35 @@
 name: sync-specific-folder
 run-name: ${{ github.actor }} is running sync folder
 on:
-  push:
+  # push:
+    # branches:
+    #   - pr-branch
+    # paths:
+    #   - templates/**
+  pull_request_target:
     branches:
-      - main
-    paths:
-      - templates/**
-  # pull_request_target:
-  #   branches:
-  #     - main
-  #   types: [labeled]
-  #   paths:
-  #     - templates/**
+      - main]
+    types: [labeled, closed]
+    # paths:
+    #   - templates/**
 jobs:
   sync-branch:
-    if: ${{ github.event.pull_request.merged }} == true && ${{ github.event.pull_request.labels.*.name }} =~ 'sync-branch'
+    if: ${{ github.event.pull_request.merged }} == true && ${{ github.event.label.name == 'sync-branch' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: sync branch
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
-          elements = ${{github.event.pull_request.labels.*.name}}
-          for element in "${elements[@]}"
-          do
-              echo "$element"
-          done
+          echo "start sync"
+          # gh api -H "Accept: application/vnd.github+json" /repos/namnv176-dev/ci-cd-sample/issues/${{ github.event.pull_request.number }}/labels | jq '[.[].name]' > /tmp/label_list
+          # cat /tmp/label_list
+          # elements = ${{github.event.pull_request.labels.*.name}}
+          # for element in "${elements[@]}"
+          # do
+          #     echo "$element"
+          # done
           # echo ${{github.event.pull_request.labels.*.name}}
           # git checkout sync-branch
           # git checkout -- templates # Reset the templates folder to the state of the 'theme' branch
