@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: sync branch
       run: |
-          echo ${{ toJSON(github.event.pull_request)}}
+          # echo ${{ toJSON(github.event.pull_request)}}
           echo ${{ github.event.pull_request.labels[0].name }}
           # gh api -H "Accept: application/vnd.github+json" /repos/namnv176-dev/ci-cd-sample/issues/${{ github.event.pull_request.number }}/labels | jq '[.[].name]' > /tmp/label_list
           # cat /tmp/label_list
