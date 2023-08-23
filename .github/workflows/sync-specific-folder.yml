@@ -8,13 +8,14 @@ on:
     #   - templates/**
   pull_request_target:
     branches:
-      - main]
-    types: [labeled, closed]
+      - main
+    types:
+      - closed
     # paths:
     #   - templates/**
 jobs:
   sync-branch:
-    if: ${{ github.event.pull_request.merged }} == true && ${{ github.event.label.name == 'sync-branch' }}
+    if: ${{ github.event.pull_request.merged }} == true && ${{ github.event.pull_request.lable.name == 'sync-branch' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
