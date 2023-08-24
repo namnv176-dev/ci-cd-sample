@@ -1,6 +1,9 @@
 name: sync-specific-folder
 run-name: ${{ github.actor }} is running sync folder
 on:
+  push:
+    branches:
+      - main
   pull_request_target:
     branches:
       - main
@@ -11,13 +14,15 @@ jobs:
   sync-branch:
     if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'sync-branch')
     runs-on: ubuntu-latest
+    environment:
+      name: production
     steps:
     - uses: actions/checkout@v2
     - name: sync site branch with change of merge commit
       run: |
-          commit_hash=${{github.event.pull_request.sha}}
+          commit_hash=${{ github.event.pull_request.base.sha }}
           git fetch origin
-          IFS="," read -r -a branches <<< "${{ vars.SITE_BRANCHES }}"
+          IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
           # Loop through the array elements
           for element in "${branches[@]}"
