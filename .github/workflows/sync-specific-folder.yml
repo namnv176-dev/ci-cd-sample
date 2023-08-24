@@ -26,7 +26,7 @@ jobs:
           do
               echo "Start sync branch: $element"
               git checkout "$element"
-              git cherry-pick "$commit_hash" >/dev/null 2>&1
+              git cherry-pick -m 1 "$commit_hash" >/dev/null 2>&1
               # Check if cherry-pick was successful
               if [ $? -eq 0 ]; then
                   git push origin "$element"
