@@ -18,7 +18,6 @@ jobs:
     - name: sync site branch with change of merge commit
       run: |
           commit_hash=${{ github.event.pull_request.base.sha }}
-          git fetch origin
           IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
           # Loop through the array elements
@@ -26,6 +25,7 @@ jobs:
           do
               echo "Start sync branch: $element"
               git checkout "$element"
+              git fetch origin
               git cherry-pick -m 1 "$commit_hash" 
               # >/dev/null 2>&1
               # # Check if cherry-pick was successful
