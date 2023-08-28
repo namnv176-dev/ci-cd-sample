@@ -33,6 +33,7 @@ jobs:
             # Loop through the array elements
             for branch in "${branches[@]}"
             do
+                echo "\n============================="
                 echo "Start sync branch: $branch"
                 git checkout "$branch"
                 git cherry-pick -m 1 "$commit_hash" >/dev/null
