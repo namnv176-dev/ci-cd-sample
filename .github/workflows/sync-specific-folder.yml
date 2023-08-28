@@ -37,9 +37,9 @@ jobs:
                 echo "Start sync branch: $branch"
                 git checkout "$branch"
                 set +e
-                git cherry-pick -m 1 "$commit_hash" >/dev/null
-                set -e
+                git cherry-pick -m 1 "$commit_hash"
                 cherry_pick_status=$?
+                set -e
                 echo "$cherry_pick_status"
                 # Handle the cherry pick result
                 if [ $cherry_pick_status -eq 0 ]; then
