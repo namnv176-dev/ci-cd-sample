@@ -24,7 +24,6 @@ jobs:
       - name: sync site branch with change of merge commit
         continue-on-error: true
         run: |
-            set +e
             git branch
             # commit_hash=${{ github.event.pull_request.base.sha }}
             commit_hash=dc40a099a7e98bdd2791ab583f912143332f34e6
@@ -33,10 +32,12 @@ jobs:
             # Loop through the array elements
             for branch in "${branches[@]}"
             do
-                echo "\n============================="
+                echo "============================="
                 echo "Start sync branch: $branch"
                 git checkout "$branch"
+                set +e
                 git cherry-pick -m 1 "$commit_hash" >/dev/null
+                set -e
                 cherry_pick_status=$?
                 echo "$cherry_pick_status"
                 # Handle the cherry pick result
@@ -48,4 +49,3 @@ jobs:
                   echo "Cherry pick failed on $branch"
                 fi
             done
-            set -e
