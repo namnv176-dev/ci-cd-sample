@@ -34,12 +34,13 @@ jobs:
                 echo "Start sync branch: $element"
                 git checkout "$element"
                 git cherry-pick -m 1 "$commit_hash"
+                exit_code=$?
                 # Check if cherry-pick was successful
-                if [ $? -ne 0 ]; then
-                    git push origin "$element"
-                    echo "Success sync branch $element!"
+                if [ $exit_code -ne 0 ]; then
+                  git cherry-pick --abort
+                  echo "Failed sync branch $element!"
                 else
-                    git cherry-pick --abort
-                    echo "Failed sync branch $element!"
+                  git push origin "$element"
+                  echo "Success sync branch $element!"
                 fi
             done
