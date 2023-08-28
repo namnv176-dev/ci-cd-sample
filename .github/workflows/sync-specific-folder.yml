@@ -40,10 +40,11 @@ jobs:
                 echo "$cherry_pick_status"
                 # Handle the cherry pick result
                 if [ $cherry_pick_status -eq 0 ]; then
+                  git push origin $branch
                   echo "Cherry pick successful on $branch"
                 else
+                  git cherry-pick --abort
                   echo "Cherry pick failed on $branch"
-                  # exit 1
                 fi
             done
             set -e
