@@ -22,6 +22,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: sync site branch with change of merge commit
+        continue-on-error: true
         run: |
             git branch
             # commit_hash=${{ github.event.pull_request.base.sha }}
@@ -34,7 +35,7 @@ jobs:
                 echo "Start sync branch: $branch"
                 git checkout "$branch"
                 git cherry-pick -m 1 "$commit_hash"
-                continue-on-error: true
+                
                 cherry_pick_status=$?
                 # Handle the cherry pick result
                 if [ $cherry_pick_status -eq 0 ]; then
