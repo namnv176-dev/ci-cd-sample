@@ -10,13 +10,18 @@ for element in "${branches[@]}"
 do
     echo "Start sync branch: $element"
     git checkout "$element"
-    git cherry-pick -m 1 "$commit_hash" >/dev/null 2>&1
-    # Check if cherry-pick was successful
-    if [ $? -eq 0 ]; then
-        git push origin "$element"
+    # error=$(git cherry-pick -m 1 "$commit_hash")
+    # echo "error --> $erorr"
+    git cherry-pick -m 1 "$commit_hash"
+    cherry_pick_status=$?
+
+    if [ $cherry_pick_status -eq 0 ]; then
+        # git push origin "$element"
         echo "Success sync branch $element!"
     else
-        git cherry-pick --abort
+        # git cherry-pick --abort
         echo "Failed sync branch $element!"
     fi
+    git cherry-pick --abort
 done
+git checkout main
