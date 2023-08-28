@@ -34,6 +34,7 @@ jobs:
                 echo "Start sync branch: $branch"
                 git checkout "$branch"
                 git cherry-pick -m 1 "$commit_hash"
+                continue-on-error: true
                 cherry_pick_status=$?
                 # Handle the cherry pick result
                 if [ $cherry_pick_status -eq 0 ]; then
@@ -42,5 +43,4 @@ jobs:
                   echo "Cherry pick failed on $branch"
                   # exit 1
                 fi
-                continue-on-error: true
             done
