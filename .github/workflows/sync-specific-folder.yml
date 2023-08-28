@@ -30,7 +30,7 @@ jobs:
         continue-on-error: true
         run: |
             git branch
-            commit_hash=${{ github.event.pull_request.merge_commit_sha.sha }}
+            commit_hash=${{ github.event.pull_request.merge_commit_sha }}
             # commit_hash=dc40a099a7e98bdd2791ab583f912143332f34e6
             IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
