@@ -29,18 +29,17 @@ jobs:
             IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
             # Loop through the array elements
-            for element in "${branches[@]}"
+            for branch in "${branches[@]}"
             do
-                echo "Start sync branch: $element"
-                git checkout "$element"
-                message=$(git cherry-pick -m 1 "$commit_hash")
+                echo "Start sync branch: $branch"
+                git checkout "$branch"
+                git cherry-pick -m 1 "$commit_hash"
                 cherry_pick_status=$?
-                # Check if cherry-pick was successful
-                if echo $message | grep -q "error:"; then
-                  git cherry-pick --abort
-                  echo "Failed sync branch $element!"
+                # Handle the cherry pick result
+                if [ $cherry_pick_status -eq 0 ]; then
+                  echo "Cherry pick successful on $branch"
                 else
-                  git push origin "$element"
-                  echo "Success sync branch $element!"
+                  echo "Cherry pick failed on $branch"
+                  exit 1
                 fi
             done
