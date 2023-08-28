@@ -22,7 +22,7 @@ jobs:
         run: |
             echo ${{ toJSON(github.event.pull_request)}}
             git branch
-            commit_hash=${{ github.event.pull_request.head.sha }}
+            commit_hash=${{ github.event.pull_request.merge_commit_sha }}
             IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
             # Loop through the array elements
