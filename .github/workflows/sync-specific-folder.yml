@@ -21,7 +21,7 @@ jobs:
       - name: sync site branch with change of merge commit
         run: |
             git branch
-            commit_hash=${{ github.event.pull_request.base.sha }}
+            commit_hash=${{ github.event.pull_request.head.sha }}
             IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
             # Loop through the array elements
