@@ -20,7 +20,6 @@ jobs:
           fetch-depth: 0
       - name: sync site branch with change of merge commit
         run: |
-            # echo ${{ toJSON(github.event.pull_request)}}
             git branch
             commit_hash=${{ github.event.pull_request.merge_commit_sha }}
             IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
