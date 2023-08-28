@@ -22,6 +22,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Setup actor running workflow
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
       - name: sync site branch with change of merge commit
         continue-on-error: true
         run: |
