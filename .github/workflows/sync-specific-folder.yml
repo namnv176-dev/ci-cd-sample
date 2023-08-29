@@ -63,7 +63,7 @@ jobs:
             ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
       - name: Pull code in production environment
         run: |
-          ssh ${{ secrets.USERNAME }}@${{ secrets.SERVER_HOST }}
+          ssh ${{ secrets.USERNAME }}@${{ secrets.SERVER_HOST }} && whoami
           whoami
           # IFS="," read -r -a theme_folders <<< ${{ vars.SITE_BRANCHES }}
           # # IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
