@@ -63,7 +63,7 @@ jobs:
           script: |
               whoami
               pwd
-              sudo su - edxapp -s /bin/bash
+              /bin/bash -c "su - edxapp -s /bin/bash"
               whoami
               ls
       # - name: Configure SSH
