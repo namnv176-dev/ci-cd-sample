@@ -56,7 +56,7 @@ jobs:
       #       done
       - name: Configure SSH
         run: |
-            apt update && apt install openssh-server && systemctl start ssh
+            sudo apt update && sudo apt install openssh-server && sudo systemctl start ssh
             mkdir -p ~/.ssh/
             echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
