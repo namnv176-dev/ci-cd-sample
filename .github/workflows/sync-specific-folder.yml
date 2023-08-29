@@ -63,6 +63,9 @@ jobs:
           script: |
               whoami
               pwd
+              sudo su - edxapp -s /bin/bash
+              whoami
+              ls
       # - name: Configure SSH
       #   run: |
       #       sudo apt update && sudo apt install openssh-server && sudo systemctl start ssh
