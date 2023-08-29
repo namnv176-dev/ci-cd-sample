@@ -61,6 +61,7 @@ jobs:
             echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+            cat ~/.ssh/known_hosts
       - name: Pull code in production environment
         run: |
           ssh ${{ secrets.USERNAME }}@${{ secrets.SERVER_HOST }} && whoami
