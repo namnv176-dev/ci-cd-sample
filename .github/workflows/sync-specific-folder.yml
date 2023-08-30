@@ -54,7 +54,7 @@ jobs:
       #             echo "\e[31mCherry pick failed on $branch\e[0m"
       #           fi
       #       done
-      - name: Pull code
+      - name: Pull code in production environment
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -67,8 +67,6 @@ jobs:
               cd ${{vars.WORKING_DIR }}
               pwd
               IFS=',' read -ra theme_folders <<< ${{ vars.THEME_FOLDERS }}
-              echo "$theme_folders"
-              # IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
               # Loop through each branch and pull the latest code
               for theme in "\${theme_folders[@]}"
               do
@@ -76,58 +74,9 @@ jobs:
                 cd "\$theme" 
                 pwd
                 git branch
+                git restore .
+                git pull
                 cd ..
-                # git checkout "${branches[i]}"
-              #   if [ $? -eq 0 ]; then
-              #     git restore .
-              #     git pull
-              #     if [ $? -eq 0 ]; then
-              #       echo "Successfully pulled latest code for theme '$theme'. \n"
-              #       cd ..
-              #     else
-              #       echo "\e[31mFailed to pull code for theme '$theme'.\e[0m"
-              #       exit 0
-              #     fi
-              #   else
-              #     echo "Failed to checkout theme '$theme'."
-              #     exit 0
-              #   fi
               done
               echo "Successfully pulled all branch in"
             EOF
-      # - name: Configure SSH
-      #   run: |
-      #       sudo apt update && sudo apt install openssh-server && sudo systemctl start ssh
-      #       mkdir -p ~/.ssh/
-      #       echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-      #       chmod 600 ~/.ssh/id_rsa
-      #       ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-      # - name: Pull code in production environment
-      #   run: |
-      #     ssh ${{ secrets.USERNAME }}@${{ secrets.SERVER_HOST }} && pwd
-      #     whoami
-      #     # IFS="," read -r -a theme_folders <<< ${{ vars.SITE_BRANCHES }}
-      #     # # IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
-      #     # # Loop through each branch and pull the latest code
-      #     # for theme in "${theme_folders[@]}"
-      #     # do
-      #     #   echo "checkout & pull '$theme'"
-      #     #   sudo -u edxapp bash -c 'cd ${{vars.WORKING_DIR }}/$theme && git pull'
-      #     #   git checkout "${branches[i]}"
-      #     #   if [ $? -eq 0 ]; then
-      #     #     git restore .
-      #     #     git pull origin "${branches[i]}"
-      #     #     if [ $? -eq 0 ]; then
-      #     #       echo "Successfully pulled latest code for branch '${branches[i]}'. \n"
-      #     #       cd ..
-      #     #     else
-      #     #       echo "Failed to pull code for branch '${branches[i]}'."
-      #     #       exit 0
-      #     #     fi
-      #     #   else
-      #     #     echo "Failed to checkout branch '${branches[i]}'."
-      #     #     exit 0
-      #     #   fi
-      #     # done
-      #     echo "Successfully pulled all branch in ${branches}"
-
