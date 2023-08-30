@@ -54,7 +54,7 @@ jobs:
       #             echo "\e[31mCherry pick failed on $branch\e[0m"
       #           fi
       #       done
-      - name: Pull code in production environment
+      - name: Pull code in production server
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -70,7 +70,8 @@ jobs:
               # Loop through each branch and pull the latest code
               for theme in "\${theme_folders[@]}"
               do
-                echo "checkout & pull \$theme"
+                echo "======================"
+                echo "\e[33mcheckout & pull \$theme\e[0m"
                 cd "\$theme" 
                 pwd
                 git branch
@@ -78,5 +79,5 @@ jobs:
                 git pull
                 cd ..
               done
-              echo "Successfully pulled all branch in"
+              echo "Successfully pulled all branch"
             EOF
