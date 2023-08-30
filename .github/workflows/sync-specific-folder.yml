@@ -89,7 +89,7 @@ jobs:
               #     echo "Failed to checkout theme '$theme'."
               #     exit 0
               #   fi
-              # done
+              done
               echo "Successfully pulled all branch in"
             EOF
       # - name: Configure SSH
