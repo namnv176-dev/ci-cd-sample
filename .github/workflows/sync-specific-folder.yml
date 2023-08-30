@@ -61,11 +61,37 @@ jobs:
           username: ${{ vars.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            whoami
+            sudo -u edxapp -s /bin/bash << EOF
               whoami
+              cd ${{vars.WORKING_DIR }}
               pwd
-              /bin/bash -c "su - edxapp -s /bin/bash"
-              whoami
-              ls
+              IFS="," read -r -a theme_folders <<< ${{ vars.THEME_FOLDERS }}
+              # IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
+              # Loop through each branch and pull the latest code
+              for theme in "${theme_folders[@]}"
+              do
+                echo "checkout & pull '$theme'"
+                cd $theme
+                git branch
+                # git checkout "${branches[i]}"
+              #   if [ $? -eq 0 ]; then
+              #     git restore .
+              #     git pull
+              #     if [ $? -eq 0 ]; then
+              #       echo "Successfully pulled latest code for theme '$theme'. \n"
+              #       cd ..
+              #     else
+              #       echo "\e[31mFailed to pull code for theme '$theme'.\e[0m"
+              #       exit 0
+              #     fi
+              #   else
+              #     echo "Failed to checkout theme '$theme'."
+              #     exit 0
+              #   fi
+              # done
+              echo "Successfully pulled all branch in"
+            EOF
       # - name: Configure SSH
       #   run: |
       #       sudo apt update && sudo apt install openssh-server && sudo systemctl start ssh
