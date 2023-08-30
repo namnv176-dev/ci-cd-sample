@@ -71,8 +71,9 @@ jobs:
               # Loop through each branch and pull the latest code
               for theme in "${theme_folders[@]}"
               do
-                echo "checkout & pull '$theme'"
-                cd $theme
+                echo "checkout & pull $theme"
+                cd "$theme"
+                pwd
                 git branch
                 # git checkout "${branches[i]}"
               #   if [ $? -eq 0 ]; then
