@@ -13,47 +13,47 @@ permissions:
   contents: write
 jobs:
   sync-branch:
-    # if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'sync-branch')
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'sync-branch')
     runs-on: ubuntu-latest
     environment:
       name: production
     steps:
-      # - name: Checkout node
-      #   uses: actions/checkout@v2
-      #   with:
-      #     fetch-depth: 0
-      # - name: Setup actor running workflow
-      #   run: |
-      #     git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-      #     git config --global user.name "${{ github.actor }}"
-      # - name: Sync changed file from tartget branch to site branch
-      #   continue-on-error: true
-      #   run: |
-      #       git branch
-      #       commit_hash=${{ github.event.pull_request.merge_commit_sha }}
-      #       # commit_hash=dc40a099a7e98bdd2791ab583f912143332f34e6
-      #       IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
+      - name: Checkout node
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup actor running workflow
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+      - name: Sync changed file from tartget branch to site branch
+        continue-on-error: true
+        run: |
+            git branch
+            commit_hash=${{ github.event.pull_request.merge_commit_sha }}
+            # commit_hash=dc40a099a7e98bdd2791ab583f912143332f34e6
+            IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
 
-      #       # Loop through the array elements
-      #       for branch in "${branches[@]}"
-      #       do
-      #           echo "============================="
-      #           echo "\e[33mStart sync branch: $branch\e[0m"
-      #           git checkout "$branch"
-      #           set +e
-      #           git cherry-pick -m 1 "$commit_hash"
-      #           cherry_pick_status=$?
-      #           set -e
-      #           echo "$cherry_pick_status"
-      #           # Handle the cherry pick result
-      #           if [ $cherry_pick_status -eq 0 ]; then
-      #             git push origin $branch
-      #             echo "\e[32mCherry pick successful on $branch\e[0m"
-      #           else
-      #             git cherry-pick --abort
-      #             echo "\e[31mCherry pick failed on $branch\e[0m"
-      #           fi
-      #       done
+            # Loop through the array elements
+            for branch in "${branches[@]}"
+            do
+                echo "============================="
+                echo "\e[33mStart sync branch: $branch\e[0m"
+                git checkout "$branch"
+                set +e
+                git cherry-pick -m 1 "$commit_hash"
+                cherry_pick_status=$?
+                set -e
+                echo "$cherry_pick_status"
+                # Handle the cherry pick result
+                if [ $cherry_pick_status -eq 0 ]; then
+                  git push origin $branch
+                  echo "\e[32mCherry pick successful on $branch\e[0m"
+                else
+                  git cherry-pick --abort
+                  echo "\e[31mCherry pick failed on $branch\e[0m"
+                fi
+            done
       - name: Pull code in production server
         uses: appleboy/ssh-action@v1.0.0
         with:
