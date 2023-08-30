@@ -67,6 +67,7 @@ jobs:
               cd ${{vars.WORKING_DIR }}
               pwd
               IFS="," read -r -a theme_folders <<< ${{ vars.THEME_FOLDERS }}
+              echo $theme_folders
               # IFS="," read -r -a branches <<< ${{ vars.SITE_BRANCHES }}
               # Loop through each branch and pull the latest code
               for theme in "${theme_folders[@]}"
