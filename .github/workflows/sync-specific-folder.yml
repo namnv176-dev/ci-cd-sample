@@ -71,7 +71,7 @@ jobs:
               for theme in "\${theme_folders[@]}"
               do
                 echo "======================"
-                echo "\e[33mcheckout & pull \$theme\e[0m"
+                echo -e "\e[33mcheckout & pull \$theme\e[0m"
                 cd "\$theme" 
                 pwd
                 git branch
